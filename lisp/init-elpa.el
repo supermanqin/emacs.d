@@ -4,30 +4,22 @@
 (add-to-list 'package-archives '("org" . "http://elpa.emacs-china.org/org/"))
 (add-to-list 'package-archives '("gnu" . "http://elpa.emacs-china.org/gnu/"))
 
-;;require-package
-(defun require-package (package &optional min-version no-refresh)
-  "Install given PACKAGE, optionally requiring MIN-VERSION.
-If NO-REFRESH is non-nil, the available package lists will not be
-re-downloaded in order to locate PACKAGE."
-  (if (package-installed-p package min-version)
-      t
-    (if (or (assoc package package-archive-contents) no-refresh)
-        (if (boundp 'package-selected-packages)
-            ;; Record this as a package the user installed explicitly
-            (package-install package nil)
-          (package-install package))
-      (progn
-        (package-refresh-contents)
-        (require-package package min-version t)))))
-
-(setq package-enable-at-startup nil)
 (package-initialize)
+(setq el-get-sources
+ '((:name color-theme-sanityinc-tomorrow
+          :description "Two pleasant medium-contrast Emacs color themes in light and dark flavours"
+          :type github
+          :pkgname "purcell/color-theme-sanityinc-tomorrow"
+          :depends color-theme
+          :prepare (add-to-list 'custom-theme-load-path default-directory))))
 
-(require-package 'fullframe)
-(fullframe list-packages quit-window)
-
-(require-package 'cl-lib)
-(require 'cl-lib)
+(defvar viel:el-get-packages
+    (append
+      '(evil
+      color-theme-sanityinc-tomorrow)
+      (mapcar 'el-get-source-name el-get-sources)))
+    
+(el-get 'sync viel:el-get-packages) 
 
 ;;provide
 (provide 'init-elpa)
