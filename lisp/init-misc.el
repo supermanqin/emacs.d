@@ -12,5 +12,8 @@
 (setq display-time-24hr-format t) ;;格式 
 (setq display-time-day-and-date t) ;;显示时间、星期、日期
 
+;; all backups goto ~/.backups instead in the current directory
+(setq backup-directory-alist (quote (("." . "~/.emacs-backups"))))
+
 ;;provide feature
 (provide 'init-misc)
