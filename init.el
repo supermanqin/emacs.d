@@ -8,3 +8,4 @@
 (require 'init-elpa)
 (require 'init-themes)
 (require 'init-evil)
+(require 'init-keybinding)
